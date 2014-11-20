@@ -49,7 +49,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>jyuET3XRPiEO0N7v29yv7YnfZxNy2VQHyAf7CU0i3k0=</dsig:DigestValue>
+        <dsig:DigestValue>laiEo+OQ1okq7NwWqEFFpyp1sdmBe43awZm0mk0VwiI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -66,14 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MQTTProcessor.dll" size="8704">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MQTTProcessor.dll" size="9216">
       <assemblyIdentity name="MQTTProcessor" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>O1FQY8v1mfAo137lyPMSMpv2y3cKjliSMPlAvO2xB64=</dsig:DigestValue>
+        <dsig:DigestValue>bOULGSvobThLJNo+epoo194TYvfxhhcrRGDw9ZYkN6c=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
