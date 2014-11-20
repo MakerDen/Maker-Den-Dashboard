@@ -113,6 +113,7 @@ namespace ProcessMQTT.WPF.ViewModels {
             set { if (soundCount == value) return; soundCount = value; NotifyPropertyChanged(); }
         }
 
+
         private string selectedCommand;
         public string SelectedCommand
         {
