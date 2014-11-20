@@ -215,7 +215,7 @@ namespace ProcessMQTT.WPF.ViewModels {
             // this is where to do the MQTT Command Magic
             // You have access to SelectedCommand and DeviceID
             // if the command was valid you can also get the system to remember it
-            if (selectedCommand.Length == 0) { return; }
+            if (string.IsNullOrEmpty(selectedCommand)) { return; }
 
             int index = selectedCommand.IndexOf(' ');
             if (index == -1) { actionItem = selectedCommand; }
