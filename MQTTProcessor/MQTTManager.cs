@@ -140,6 +140,12 @@ namespace MQTTProcessor {
             fact.Topic = topic;
             InitDataEvent(new DataEventArgs(fact, data));
         }
+
+        public void Publish(string topic, string SelectedCommand) {
+            if (client != null) {
+                client.Publish(topic, new UTF8Encoding().GetBytes(SelectedCommand));
+            }
+        }
     }
 }
 
