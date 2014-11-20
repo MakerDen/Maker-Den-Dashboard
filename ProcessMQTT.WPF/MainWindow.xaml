@@ -1,0 +1,81 @@
+﻿<Window xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ValueConverters="clr-namespace:ProcessMQTT.WPF.ValueConverters"  x:Class="ProcessMQTT.WPF.MainWindow"
+        Title="Internet of Things Dashboard" Height="750" Width="1000" WindowStartupLocation="CenterScreen" SizeToContent="Manual" WindowState="Maximized" WindowStyle="SingleBorderWindow">
+    <Window.Resources>
+        <ValueConverters:UtcToLocalValueConverter x:Key="UtcToLocalValueConverter"/>
+        <ValueConverters:TopicToBackgroundColourValueConverter x:Key="TopicToBackgroundColourValueConverter"/>
+        <ValueConverters:FactTypeRangeValueConverter x:Key="FactTypeRangeValueConverter"/>
+        <DataTemplate x:Key="SensorItemTemplate">
+            <Grid  Margin="0" Background="{Binding Topic, Converter={StaticResource TopicToBackgroundColourValueConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2"/>
+                <StackPanel Margin="4" HorizontalAlignment="Left" >
+                    <TextBlock Text="{Binding Topic}" FontSize="18" Width="140"/>
+                    <TextBlock Text="{Binding LastUpdated, Converter={StaticResource UtcToLocalValueConverter}, StringFormat=\{0:dd/MM/yyyy HH:mm:ss\}}" />
+                    <telerik:RadRadialGauge Height="140"  telerik:StyleManager.Theme="Windows8" Width="140" Margin="0,2,0,0">
+                        <telerik:RadialScale Min="{Binding Type, ConverterParameter=min, Converter={StaticResource FactTypeRangeValueConverter}}" 
+                                             Max="{Binding Type, ConverterParameter=max, Converter={StaticResource FactTypeRangeValueConverter}}" 
+                                             LabelFormat="{}{0:F0}" >
+                            <telerik:RadialScale.Indicators>
+                                <telerik:Needle Value="{Binding Val}" IsAnimated="True" />
+                                <telerik:Marker Value="{Binding Avg}" IsAnimated="True"/>
+                                <telerik:Marker Value="{Binding Val}" IsAnimated="True" RefreshMode="Max" RefreshRate="0:0:30" Foreground="Green" Background="Green"/>
+                                <telerik:Marker Value="{Binding Val}" IsAnimated="True" RefreshMode="Min" RefreshRate="0:0:30" Foreground="Red" Background="Red"/>
+                            </telerik:RadialScale.Indicators>
+                        </telerik:RadialScale>
+                    </telerik:RadRadialGauge>
+                    <!--<StackPanel Orientation="Horizontal">
+                        <Polygon Height="10" Width="16" Fill="Red" Points="0,10 8,0 16,10 0,10"/>
+                        <TextBlock Text="Min (30 sec)" Margin="10,0"/>
+                        <Polygon Height="10" Width="16" Fill="Green" Points="0,10 8,0 16,10 0,10"/>
+                        <TextBlock Text="Max (30 sec)" Margin="10,0"/>
+                    </StackPanel>-->
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="GaugeItemsPanelTemplate">
+            <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+    </Window.Resources>
+    <!-- See http://www.telerik.com/help/wpf/radgauge-features-indicators-basics.html for xaml syntax-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Image Source="Images/IoTWorld.png" Stretch="UniformToFill" Grid.RowSpan="2" Opacity="0.5" />
+
+        <TextBlock Text="Internet of Things Dashboard" FontSize="30" VerticalAlignment="Bottom" Margin="5" />
+        <TextBlock Text="Controls by Telerik" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="15" Margin="5"/>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Sensors}" ItemTemplate="{DynamicResource SensorItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <telerik:RadWatermarkTextBox Grid.Column="0" Text="{Binding DeviceID, Mode=TwoWay}" WatermarkContent="Device ID" Margin="10" FontSize="20" HorizontalAlignment="Stretch"/>
+            <telerik:RadComboBox Grid.Column="1" Margin="10" FontSize="20" ItemsSource="{Binding Commands}" Text="{Binding SelectedCommand, Mode=TwoWay}" HorizontalAlignment="Stretch" IsEditable="True"/>
+            <Button Grid.Column="2" Content="Post" Margin="10" FontSize="20" Click="PostCommandClicked"/>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <TextBlock Text="Total stats recorded:" Margin="10" FontSize="20"/>
+            <TextBlock Text="{Binding LightCount, StringFormat=Light: \{0:N0\}}" Margin="10" FontSize="20"/>
+            <TextBlock Text="{Binding TempCount, StringFormat=Temp: \{0:N0\}}" Margin="10" FontSize="20"/>
+            <TextBlock Text="{Binding SoundCount, StringFormat=Sound: \{0:N0\}}" Margin="10" FontSize="20"/>
+        </StackPanel>
+    </Grid>
+</Window>

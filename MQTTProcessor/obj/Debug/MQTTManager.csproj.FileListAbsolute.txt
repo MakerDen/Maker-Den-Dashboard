@@ -1,0 +1,8 @@
+c:\Dave\IoT\Utilities\VisualizeMQTT\MQTTProcessor\bin\Debug\MQTTProcessor.dll
+c:\Dave\IoT\Utilities\VisualizeMQTT\MQTTProcessor\bin\Debug\MQTTProcessor.pdb
+c:\Dave\IoT\Utilities\VisualizeMQTT\MQTTProcessor\bin\Debug\M2Mqtt.dll
+c:\Dave\IoT\Utilities\VisualizeMQTT\MQTTProcessor\bin\Debug\Newtonsoft.Json.dll
+c:\Dave\IoT\Utilities\VisualizeMQTT\MQTTProcessor\bin\Debug\Newtonsoft.Json.xml
+c:\Dave\IoT\Utilities\VisualizeMQTT\MQTTProcessor\obj\Debug\MQTTManager.csprojResolveAssemblyReference.cache
+c:\Dave\IoT\Utilities\VisualizeMQTT\MQTTProcessor\obj\Debug\MQTTProcessor.dll
+c:\Dave\IoT\Utilities\VisualizeMQTT\MQTTProcessor\obj\Debug\MQTTProcessor.pdb
