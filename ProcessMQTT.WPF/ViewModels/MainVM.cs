@@ -143,7 +143,7 @@ namespace ProcessMQTT.WPF.ViewModels {
             // put any commands you want prepopulated in the combo box into the list here
             return new ObservableCollection<string>()
             {
-                "Measure",
+                "Measure", "Hello",
             };
         }
 
