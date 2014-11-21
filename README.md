@@ -1,4 +1,5 @@
 IoTDashboard
 ============
 
-Code for the Dashboard for the maker den code
+This repo contains the code for the dashboard monitoring the output from the sensors in the main maker den
+
