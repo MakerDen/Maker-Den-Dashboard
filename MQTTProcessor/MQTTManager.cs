@@ -46,14 +46,6 @@ namespace MQTTProcessor {
         public void InitMQTT() {
 
             InitBroker();
-            return;
-
-            // register to message received 
-            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
-            client.MqttMsgDisconnected += client_MqttMsgDisconnected;
-
-            // subscribe to the topic "/home/temperature" with QoS 2 
-            client.Subscribe(new string[] { mqttTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
         }
 
         void InitBroker() {
@@ -85,8 +77,8 @@ namespace MQTTProcessor {
             client.MqttMsgDisconnected += client_MqttMsgDisconnected;
 
             // subscribe to the topic "/home/temperature" with QoS 2 
-            client.Subscribe(new string[] { mqttTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-      
+            client.Subscribe(new string[] { mqttTopic, "gbdevice/#" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE });
+
         }
 
         void client_MqttMsgDisconnected(object sender, EventArgs e) {
@@ -127,9 +119,17 @@ namespace MQTTProcessor {
         }
 
         void SendMessage(string data, string topic) {
+            string[] topicParts = topic.Split('/');
+            if (topicParts.Length < 1) { return; }
             try {
-                Fact f = JsonConvert.DeserializeObject<Fact>(data);
-                ProcessMessage(f, data, topic);
+                switch (topicParts[0]) {
+                    case "gb":
+                        Fact f = JsonConvert.DeserializeObject<Fact>(data);
+                        ProcessMessage(f, data, topic);
+                        break;
+                    case "gbdevice":
+                        break;
+                }
             }
             catch (Exception ex) {
 

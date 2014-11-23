@@ -11,6 +11,6 @@ C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\bin\Debug\MQTTProcessor
 C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\bin\Debug\M2Mqtt.dll
 C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\bin\Debug\Newtonsoft.Json.dll
 C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\bin\Debug\Newtonsoft.Json.xml
-C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\obj\Debug\MQTTManager.csprojResolveAssemblyReference.cache
 C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\obj\Debug\MQTTProcessor.dll
 C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\obj\Debug\MQTTProcessor.pdb
+C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\obj\Debug\MQTTManager.csprojResolveAssemblyReference.cache

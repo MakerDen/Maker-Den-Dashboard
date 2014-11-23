@@ -16,6 +16,9 @@ using System.Windows.Threading;
 namespace ProcessMQTT.WPF.ViewModels {
     public class MainVM : BaseVM {
 
+        const string SensorNamespace = "gb/#";
+        const string DeviceCapabilitiesNameSpace = "gbdevice/#";
+
         private readonly MQTTManager mgr;
         private readonly factVM temp;
         private readonly factVM humidity;
