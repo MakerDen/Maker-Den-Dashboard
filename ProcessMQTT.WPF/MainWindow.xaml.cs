@@ -29,5 +29,10 @@ namespace ProcessMQTT.WPF {
         {
             (DataContext as MainVM).PostCommand();
         }
+
+        private void ExitClicked(object sender, RoutedEventArgs e)
+        {
+            App.Current.Shutdown();
+        }
     }
 }

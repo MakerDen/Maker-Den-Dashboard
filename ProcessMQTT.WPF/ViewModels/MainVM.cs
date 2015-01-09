@@ -13,13 +13,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace ProcessMQTT.WPF.ViewModels {
-    public class MainVM : BaseVM {
+namespace ProcessMQTT.WPF.ViewModels
+{
+    public class MainVM : BaseVM
+    {
 
-        const string SensorNamespace = "gb/#";
-        const string DeviceCapabilitiesNameSpace = "gbdevice/#";
-
-        private readonly MQTTManager mgr;
+        private MQTTManager mgr;
         private readonly factVM temp;
         private readonly factVM humidity;
         private readonly factVM light;
@@ -30,28 +29,37 @@ namespace ProcessMQTT.WPF.ViewModels {
         private DispatcherTimer cleanupTimer;
         private DispatcherTimer statsTimer;
 
-        private readonly ObservableCollection<factVM> sensors;
-        public ObservableCollection<factVM> Sensors { get { return sensors; } }
+        private ObservableCollection<factVM> sensors;
+        public ObservableCollection<factVM> Sensors { get { sensors = sensors ?? new ObservableCollection<factVM>(); return sensors; } }
         public factVM Temp { get { return temp; } }
         public factVM Humidity { get { return humidity; } }
         public factVM Light { get { return light; } }
         public factVM Sound { get { return sound; } }
 
+        private SettingsVM settingsVM;
+
+        public SettingsVM SettingsVM
+        {
+            get { settingsVM = settingsVM ?? new SettingsVM(); return settingsVM; }
+        }
 
 
 
 
-        public MainVM() {
+        public MainVM()
+        {
             Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
 
-            mgr = new MQTTManager("gloveboxAE.cloudapp.net", "gb/#", true);
-            sensors = new ObservableCollection<factVM>();
+            showSettingsPaneCommand = new SimpleCommand(showSettingsPane);
 
-            mgr.OnDataEvent += mgr_OnDataEvent;
+            restartMqttManager();
+
             temp = new factVM();
             humidity = new factVM();
             sound = new factVM();
             light = new factVM();
+
+            SettingsVM.PropertyChanged += SettingsVM_PropertyChanged;
 
             cleanupTimer = new DispatcherTimer();
             cleanupTimer.Tick += cleanupTimer_Tick;
@@ -66,20 +74,65 @@ namespace ProcessMQTT.WPF.ViewModels {
             getStats();
         }
 
-        void MainWindow_Closing(object sender, CancelEventArgs e) {
+        private SimpleCommand showSettingsPaneCommand;
+
+        public SimpleCommand ShowSettingsPaneCommand
+        {
+            get { return showSettingsPaneCommand; }
+            set { showSettingsPaneCommand = value; }
+        }
+
+        private void showSettingsPane()
+        {
+            SettingsVM.Show();
+        }
+
+
+        void SettingsVM_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "MqttBrokerAddress" || e.PropertyName == "MqttTopic")
+            {
+                restartMqttManager();
+            }
+        }
+
+        private void restartMqttManager()
+        {
+            if (mgr != null)
+            {
+                mgr.OnDataEvent -= mgr_OnDataEvent;
+                mgr.Disconnect();
+            }
+
+            if (Sensors != null)
+            {
+                Sensors.Clear();
+            }
+
+            mgr = new MQTTManager(SettingsVM.MqttBrokerAddress, SettingsVM.MqttTopic, true);
+            mgr.OnDataEvent += mgr_OnDataEvent;
+
+
+        }
+
+        void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
             mgr.Disconnect();
 
             mgr.OnDataEvent -= mgr_OnDataEvent;
             cleanupTimer.Tick -= cleanupTimer_Tick;
             statsTimer.Tick -= statsTimer_Tick;
+            SettingsVM.PropertyChanged -= SettingsVM_PropertyChanged;
 
             cleanupTimer.Stop();
             statsTimer.Stop();
         }
 
-        private async void getStats() {
+        private async void getStats()
+        {
             //if you lose connectivity then this crashes
-            try {
+            try
+            {
                 var lightTask = httpClient.GetStringAsync(string.Format(countServiceUri, "light"));
                 var tempTask = httpClient.GetStringAsync(string.Format(countServiceUri, "temp"));
                 var soundTask = httpClient.GetStringAsync(string.Format(countServiceUri, "sound"));
@@ -88,7 +141,8 @@ namespace ProcessMQTT.WPF.ViewModels {
                 TempCount = JsonConvert.DeserializeObject<int>(tempTask.Result);
                 SoundCount = JsonConvert.DeserializeObject<int>(soundTask.Result);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex.Message);
             }
         }
@@ -96,26 +150,29 @@ namespace ProcessMQTT.WPF.ViewModels {
         private HttpClient httpClient = new HttpClient();
         private string countServiceUri = "http://OrleansSensorCounter.cloudapp.net/api/sensor/{0}";
 
-        void statsTimer_Tick(object sender, EventArgs e) {
+        void statsTimer_Tick(object sender, EventArgs e)
+        {
             getStats();
         }
 
         private int lightCount;
-        public int LightCount {
+        public int LightCount
+        {
             get { return lightCount; }
             set { if (lightCount == value) return; lightCount = value; NotifyPropertyChanged(); }
         }
         private int tempCount;
-        public int TempCount {
+        public int TempCount
+        {
             get { return tempCount; }
             set { if (tempCount == value) return; tempCount = value; NotifyPropertyChanged(); }
         }
         private int soundCount;
-        public int SoundCount {
+        public int SoundCount
+        {
             get { return soundCount; }
             set { if (soundCount == value) return; soundCount = value; NotifyPropertyChanged(); }
         }
-
 
         private string selectedCommand;
         public string SelectedCommand
@@ -146,29 +203,34 @@ namespace ProcessMQTT.WPF.ViewModels {
             // put any commands you want prepopulated in the combo box into the list here
             return new ObservableCollection<string>()
             {
-                "Measure", "Hello",
+                "Measure",
             };
         }
 
         void cleanupTimer_Tick(object sender, EventArgs e)
         {
             // get a list of the Sensors to be cleaned up
-            if (Sensors.Count(s => s.LastUpdated.AddMinutes(sensorTTL) < DateTime.UtcNow) > 0) {
+            if (Sensors.Count(s => s.LastUpdated.AddMinutes(sensorTTL) < DateTime.UtcNow) > 0)
+            {
                 var oldSensors = Sensors.Where(s => s.LastUpdated.AddMinutes(sensorTTL) < DateTime.UtcNow).ToList();
-                foreach (var sensor in oldSensors) {
+                foreach (var sensor in oldSensors)
+                {
                     Sensors.Remove(sensor);
                 }
             }
         }
 
-        void mgr_OnDataEvent(object sender, EventArgs e) {
+        void mgr_OnDataEvent(object sender, EventArgs e)
+        {
 
             // make sure we're on the despatcher thread
             Application.Current.Dispatcher.Invoke(
-                () => {
+                () =>
+                {
                     var fact = ((MQTTManager.DataEventArgs)e).fact;
 
-                    switch (fact.Type) {
+                    switch (fact.Type)
+                    {
                         case "light":
                             Light.Add(fact);
                             break;
@@ -192,11 +254,13 @@ namespace ProcessMQTT.WPF.ViewModels {
                     // now look up the factVM to add this to
                     // var matchingSensors = Sensors.Count(s => s.Topic == fact.Topic);
                     var thisSensor = Sensors.Where(s => s.Topic == fact.Topic).FirstOrDefault();
-                    if (thisSensor == null) {
+                    if (thisSensor == null)
+                    {
                         thisSensor = new factVM();
                         // work out where to add the sensor (sorted by topic)
                         int addAt = 0;
-                        foreach (var sensor in Sensors) {
+                        foreach (var sensor in Sensors)
+                        {
                             if (fact.Topic.CompareTo(sensor.Topic) < 0)
                                 break;
                             addAt++;
@@ -213,31 +277,10 @@ namespace ProcessMQTT.WPF.ViewModels {
 
         internal void PostCommand()
         {
-            string actionItem = string.Empty;
-            string parameters = string.Empty;
             // this is where to do the MQTT Command Magic
             // You have access to SelectedCommand and DeviceID
             // if the command was valid you can also get the system to remember it
-            if (string.IsNullOrEmpty(selectedCommand)) { return; }
-
-            int index = selectedCommand.IndexOf(' ');
-            if (index == -1) { actionItem = selectedCommand; }
-            else {
-                actionItem = selectedCommand.Substring(0, index);
-                parameters = selectedCommand.Substring(index + 1);
-            }
-
-            mgr.Publish(CreateTopic(DeviceID, actionItem), parameters);
-
             RememberCommand();
-        }
-
-
-        private string CreateTopic(string deviceId, string actionItem) {
-            string result = string.Empty;
-            if (string.IsNullOrEmpty(deviceId)) { result = "gbcmd/all/" + actionItem; }
-            else { result = "gbcmd/dev/" + deviceId + "/" + actionItem; }
-            return result;
         }
 
         private void RememberCommand()
@@ -246,7 +289,7 @@ namespace ProcessMQTT.WPF.ViewModels {
                 return;
 
             var existingCommand = Commands.Where(c => c.ToLowerInvariant() == SelectedCommand.ToLowerInvariant()).FirstOrDefault();
-            if(existingCommand == null)
+            if (existingCommand == null)
             {
                 Commands.Reverse();
                 Commands.Add(SelectedCommand);
@@ -262,7 +305,8 @@ namespace ProcessMQTT.WPF.ViewModels {
         }
     }
 
-    public class factVM : BaseVM {
+    public class factVM : BaseVM
+    {
 
         // TTL for facts before they're cleaned out of the list
         private double factTTL = 5;
@@ -270,7 +314,8 @@ namespace ProcessMQTT.WPF.ViewModels {
         private bool doingCleanup = false;
 
 
-        public factVM() {
+        public factVM()
+        {
             facts = new ObservableCollection<Fact>();
 
             facts.CollectionChanged += facts_CollectionChanged;
@@ -281,27 +326,33 @@ namespace ProcessMQTT.WPF.ViewModels {
             cleanupTimer.Start();
         }
 
-        private void doCleanup(object sender, EventArgs e) {
+        private void doCleanup(object sender, EventArgs e)
+        {
             doingCleanup = true;
 
-            try {
+            try
+            {
                 // get a list of the objects to be cleaned up
                 var oldFacts = facts.Where(f => f.Utc.AddMinutes(factTTL) < DateTime.UtcNow).ToList();
-                foreach (var fact in oldFacts) {
+                foreach (var fact in oldFacts)
+                {
                     facts.Remove(fact);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
 
             }
-            finally {
+            finally
+            {
                 doingCleanup = false;
             }
 
         }
 
 
-        void facts_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
+        void facts_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
             if (doingCleanup)
                 return;
             NotifyPropertyChanged("Topic");
@@ -315,8 +366,10 @@ namespace ProcessMQTT.WPF.ViewModels {
         }
 
         private readonly ObservableCollection<Fact> facts;
-        public ObservableCollection<Fact> Facts {
-            get {
+        public ObservableCollection<Fact> Facts
+        {
+            get
+            {
                 return facts;
             }
         }
@@ -324,37 +377,47 @@ namespace ProcessMQTT.WPF.ViewModels {
         public double Val { get { return Facts.Count == 0 ? 0 : Facts.LastOrDefault().Val[0]; } }
 
 
-        public double Max {
+        public double Max
+        {
             get { return Facts.Count == 0 ? 0 : Facts.Max(f => f.Val[0]); }
         }
 
-        public double Min {
+        public double Min
+        {
             get { return Facts.Count == 0 ? 0 : Facts.Min(f => f.Val[0]); }
         }
 
-        public double Avg {
+        public double Avg
+        {
             get { return Facts.Count == 0 ? 0 : Facts.Average(f => f.Val[0]); }
         }
 
-        public string Topic {
+        public string Topic
+        {
             get { return Facts.Count == 0 ? string.Empty : Facts.LastOrDefault().Topic; }
         }
 
-        public string Type {
+        public string Type
+        {
             get { return Facts.Count == 0 ? string.Empty : Facts.LastOrDefault().Type; }
         }
 
-        public DateTime LastUpdated {
-            get {
+        public DateTime LastUpdated
+        {
+            get
+            {
                 return Facts.Count == 0 ? DateTime.MinValue : Facts.Max(f => f.Utc);
             }
         }
 
-        public string Heading {
-            get {
+        public string Heading
+        {
+            get
+            {
                 string heading;
 
-                switch (Type.ToLowerInvariant()) {
+                switch (Type.ToLowerInvariant())
+                {
                     case "light":
                         heading = "Light";
                         break;
@@ -373,7 +436,8 @@ namespace ProcessMQTT.WPF.ViewModels {
             }
         }
 
-        public void Add(Fact f) {
+        public void Add(Fact f)
+        {
             facts.Add(f);
         }
     }

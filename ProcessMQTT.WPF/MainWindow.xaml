@@ -4,6 +4,7 @@
         xmlns:ValueConverters="clr-namespace:ProcessMQTT.WPF.ValueConverters"  x:Class="ProcessMQTT.WPF.MainWindow"
         Title="Internet of Things Dashboard" Height="750" Width="1000" WindowStartupLocation="CenterScreen" SizeToContent="Manual" WindowState="Maximized" WindowStyle="SingleBorderWindow">
     <Window.Resources>
+        <ValueConverters:BoolToVisibilityValueConverter x:Key="BoolToVisibilityValueConverter"/>
         <ValueConverters:UtcToLocalValueConverter x:Key="UtcToLocalValueConverter"/>
         <ValueConverters:TopicToBackgroundColourValueConverter x:Key="TopicToBackgroundColourValueConverter"/>
         <ValueConverters:FactTypeRangeValueConverter x:Key="FactTypeRangeValueConverter"/>
@@ -46,22 +47,31 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Image Source="Images/IoTWorld.png" Stretch="UniformToFill" Grid.RowSpan="2" Opacity="0.5" />
+        <Menu >
+            <MenuItem Header="_File">
+                <MenuItem Header="_Settings" Command="{Binding ShowSettingsPaneCommand}" />
+                <Separator/>
+                <MenuItem Header="_Exit" Click="ExitClicked"/>
+            </MenuItem>
+        </Menu>
 
-        <TextBlock Text="Internet of Things Dashboard" FontSize="30" VerticalAlignment="Bottom" Margin="5" />
-        <TextBlock Text="Controls by Telerik" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="15" Margin="5"/>
-        <ListBox Grid.Row="1" ItemsSource="{Binding Sensors}" ItemTemplate="{DynamicResource SensorItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent">
+        <Image Source="Images/IoTWorld.png" Stretch="UniformToFill" Grid.RowSpan="2" Opacity="0.5" Grid.Row="1"/>
+
+        <TextBlock Text="Internet of Things Dashboard" FontSize="30" VerticalAlignment="Bottom" Margin="5" Grid.Row="1" />
+        <TextBlock Text="Controls by Telerik" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="15" Margin="5" Grid.Row="1"/>
+        <ListBox Grid.Row="2" ItemsSource="{Binding Sensors}" ItemTemplate="{DynamicResource SensorItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -71,11 +81,31 @@
             <telerik:RadComboBox Grid.Column="1" Margin="10" FontSize="20" ItemsSource="{Binding Commands}" Text="{Binding SelectedCommand, Mode=TwoWay}" HorizontalAlignment="Stretch" IsEditable="True"/>
             <Button Grid.Column="2" Content="Post" Margin="10" FontSize="20" Click="PostCommandClicked"/>
         </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="3">
+        <StackPanel Orientation="Horizontal" Grid.Row="4">
             <TextBlock Text="Total stats recorded:" Margin="10" FontSize="20"/>
             <TextBlock Text="{Binding LightCount, StringFormat=Light: \{0:N0\}}" Margin="10" FontSize="20"/>
             <TextBlock Text="{Binding TempCount, StringFormat=Temp: \{0:N0\}}" Margin="10" FontSize="20"/>
             <TextBlock Text="{Binding SoundCount, StringFormat=Sound: \{0:N0\}}" Margin="10" FontSize="20"/>
         </StackPanel>
+        <Grid Grid.RowSpan="4" DataContext="{Binding SettingsVM}" Visibility="{Binding Visible, Converter={StaticResource BoolToVisibilityValueConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="360" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0"  Background="#7F000000">
+                <Border.InputBindings>
+                    <MouseBinding MouseAction="LeftClick" Command="{Binding HideSettingsCommand}" />
+                </Border.InputBindings>
+            </Border>
+            <Border Grid.Column="1" Background="DarkGray" />
+            <StackPanel Grid.Column="1" Margin="10">
+                <TextBlock Text="Settings" FontSize="24" Margin="0,0,0,30" Foreground="White"/>
+                <TextBlock Text="MQTT Broker Address" FontSize="16" Margin="0,0,0,5" Foreground="White" />
+                <TextBox Text="{Binding MqttBrokerAddress}" FontSize="16" Margin="0,0,0,10"/>
+                <TextBlock Text="MQTT Topic" FontSize="16" Margin="0,0,0,5" Foreground="White" />
+                <TextBox Text="{Binding MqttTopic}" FontSize="16" Margin="0,0,0,10"/>
+            </StackPanel>
+            <Button Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Ok" FontSize="24" Command="{Binding HideSettingsCommand}" Margin="10" Grid.Column="1" Background="Transparent" BorderBrush="White" Padding="5"/>
+        </Grid>
     </Grid>
 </Window>

@@ -122,11 +122,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ValueConverters\BoolToVisibilityValueConverter.cs" />
     <Compile Include="ValueConverters\FactTypeRangeValueConverter.cs" />
     <Compile Include="ValueConverters\TopicToBackgroundColourValueConverter.cs" />
     <Compile Include="ValueConverters\UtcToLocalValueConverter.cs" />
     <Compile Include="ViewModels\BaseVM.cs" />
     <Compile Include="ViewModels\MainVM.cs" />
+    <Compile Include="ViewModels\SettingsVM.cs" />
+    <Compile Include="ViewModels\SimpleCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
