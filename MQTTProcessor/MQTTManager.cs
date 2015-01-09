@@ -50,15 +50,21 @@ namespace MQTTProcessor {
 
         void InitBroker() {
             bool connected = false;
-            while (!connected) {
+            int retryCount = 0;
+            while (!connected && retryCount < 2) {
                 try {
                     client = new MqttClient(mqttBrokerName);
                     connected = true;
                 }
                 catch {
                     Console.WriteLine("Problem connecting, check the broker address");
-                    Thread.Sleep(5000);
+                    Thread.Sleep(2000);
+                    retryCount++;
                 }
+            }
+            if (!connected) {
+                client = null;
+                throw new Exception("Problem connecting to " + mqttBrokerName + ".  Check address is correct");
             }
         }
 
@@ -106,7 +112,10 @@ namespace MQTTProcessor {
 
         public void Disconnect() {
             if (client != null) {
-                client.Disconnect();
+                try {
+                    client.Disconnect();
+                }
+                catch { }
             }
         }
 
