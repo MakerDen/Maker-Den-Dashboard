@@ -16,6 +16,10 @@ using System.Windows.Threading;
 namespace ProcessMQTT.WPF.ViewModels {
     public class MainVM : BaseVM {
 
+
+        const string SensorNamespace = "gb/#";
+        const string DeviceCapabilitiesNameSpace = "gbdevice/#";
+
         private MQTTManager mgr;
         private readonly factVM temp;
         private readonly factVM humidity;
@@ -182,7 +186,7 @@ namespace ProcessMQTT.WPF.ViewModels {
             // put any commands you want prepopulated in the combo box into the list here
             return new ObservableCollection<string>()
             {
-                "Measure",
+               "on/relay01", "off/relay01", "hello"
             };
         }
 
@@ -247,10 +251,31 @@ namespace ProcessMQTT.WPF.ViewModels {
 
 
         internal void PostCommand() {
+            string actionItem = string.Empty;
+            string parameters = string.Empty;
             // this is where to do the MQTT Command Magic
             // You have access to SelectedCommand and DeviceID
             // if the command was valid you can also get the system to remember it
+            if (string.IsNullOrEmpty(selectedCommand)) { return; }
+
+            int index = selectedCommand.IndexOf(' ');
+            if (index == -1) { actionItem = selectedCommand; }
+            else {
+                actionItem = selectedCommand.Substring(0, index);
+                parameters = selectedCommand.Substring(index + 1);
+            }
+
+            mgr.Publish(CreateTopic(DeviceID, actionItem), parameters);
+
             RememberCommand();
+        }
+
+
+        private string CreateTopic(string deviceId, string actionItem) {
+            string result = string.Empty;
+            if (string.IsNullOrEmpty(deviceId)) { result = "gbcmd/all/" + actionItem; }
+            else { result = "gbcmd/dev/" + deviceId + "/" + actionItem; }
+            return result;
         }
 
         private void RememberCommand() {

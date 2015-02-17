@@ -81,7 +81,7 @@
             <telerik:RadComboBox Grid.Column="1" Margin="10" FontSize="20" ItemsSource="{Binding Commands}" Text="{Binding SelectedCommand, Mode=TwoWay}" HorizontalAlignment="Stretch" IsEditable="True"/>
             <Button Grid.Column="2" Content="Post" Margin="10" FontSize="20" Click="PostCommandClicked"/>
         </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Visibility="Collapsed">
+        <StackPanel Orientation="Horizontal" Grid.Row="4">
             <TextBlock Text="Total stats recorded:" Margin="10" FontSize="20"/>
             <TextBlock Text="{Binding LightCount, StringFormat=Light: \{0:N0\}}" Margin="10" FontSize="20"/>
             <TextBlock Text="{Binding TempCount, StringFormat=Temp: \{0:N0\}}" Margin="10" FontSize="20"/>
