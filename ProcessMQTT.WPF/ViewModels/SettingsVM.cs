@@ -16,9 +16,13 @@ namespace ProcessMQTT.WPF.ViewModels
         public SettingsVM() : base()
         {
             hideSettingsCommand = new SimpleCommand(hideSettings);
+            defaultSettingsCommand = new SimpleCommand(defaultSettings);
             loadSettings();
 
         }
+
+        private string defaultMqttBrokerAddress = "gloveboxAE.cloudapp.net";
+        private string defaultMqttTopic = "gb/#";
 
         private void loadSettings()
         {
@@ -35,8 +39,8 @@ namespace ProcessMQTT.WPF.ViewModels
             else
             {
                 // for now, just use default values
-                mqttBrokerAddress = "gloveboxAE.cloudapp.net";
-                mqttTopic = "gb/#";
+                mqttBrokerAddress = defaultMqttBrokerAddress;
+                mqttTopic = defaultMqttTopic;
             }
         }
         private void SaveSettings()
@@ -100,6 +104,21 @@ namespace ProcessMQTT.WPF.ViewModels
         private void hideSettings()
         {
             Hide();
+        }
+
+        private SimpleCommand defaultSettingsCommand;
+
+        public SimpleCommand DefaultSettingsCommand
+        {
+            get { return defaultSettingsCommand; }
+            set { defaultSettingsCommand = value; }
+        }
+        
+        private void defaultSettings()
+        {
+            MqttBrokerAddress = defaultMqttBrokerAddress;
+            MqttTopic = defaultMqttTopic;
+            SaveSettings();
         }
 
     }

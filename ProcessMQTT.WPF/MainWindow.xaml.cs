@@ -34,5 +34,10 @@ namespace ProcessMQTT.WPF {
         {
             App.Current.Shutdown();
         }
+
+        private void DefaultsClicked(object sender, RoutedEventArgs e)
+        {
+            (DataContext as MainVM).SetDefaults();
+        }
     }
 }

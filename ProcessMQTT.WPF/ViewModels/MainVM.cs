@@ -295,6 +295,11 @@ namespace ProcessMQTT.WPF.ViewModels {
                 Commands.Reverse();
             }
         }
+
+        internal void SetDefaults()
+        {
+            
+        }
     }
 
     public class factVM : BaseVM {

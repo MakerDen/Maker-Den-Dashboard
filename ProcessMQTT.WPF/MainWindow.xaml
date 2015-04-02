@@ -104,6 +104,7 @@
                 <TextBox Text="{Binding MqttBrokerAddress}" FontSize="16" Margin="0,0,0,10"/>
                 <TextBlock Text="MQTT Topic" FontSize="16" Margin="0,0,0,5" Foreground="White" />
                 <TextBox Text="{Binding MqttTopic}" FontSize="16" Margin="0,0,0,10"/>
+                <Button HorizontalAlignment="Right" Content="Defaults" FontSize="16" Padding="5" Command="{Binding DefaultSettingsCommand}"/>
             </StackPanel>
             <Button Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Ok" FontSize="24" Command="{Binding HideSettingsCommand}" Margin="10" Grid.Column="1" Background="Transparent" BorderBrush="White" Padding="5"/>
         </Grid>
