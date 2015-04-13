@@ -70,7 +70,11 @@ namespace ProcessMQTT.WPF.ViewModels
 
         public string MqttTopic
         {
-            get { return mqttTopic; }
+            get 
+            { 
+                return mqttTopic; 
+                // return defaultMqttTopic;
+            }
             set { if (mqttTopic == value) return; mqttTopic = value; NotifyPropertyChanged(); SaveSettings(); }
         }
 

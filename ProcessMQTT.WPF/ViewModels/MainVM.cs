@@ -17,7 +17,7 @@ namespace ProcessMQTT.WPF.ViewModels {
     public class MainVM : BaseVM {
 
 
-        const string SensorNamespace = "gb/#";
+        // const string SensorNamespace = "gb/#";
         const string DeviceCapabilitiesNameSpace = "gbdevice/#";
 
         private MQTTManager mgr;
