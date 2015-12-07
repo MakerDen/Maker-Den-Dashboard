@@ -14,3 +14,11 @@ C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\bin\Debug\Newtonsoft.Js
 C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\obj\Debug\MQTTProcessor.dll
 C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\obj\Debug\MQTTProcessor.pdb
 C:\Users\dglover\Source\Repos\IoTDashboard\MQTTProcessor\obj\Debug\MQTTManager.csprojResolveAssemblyReference.cache
+C:\Data\Github\Maker-Den-Dashboard\MQTTProcessor\bin\Debug\MQTTProcessor.dll
+C:\Data\Github\Maker-Den-Dashboard\MQTTProcessor\bin\Debug\MQTTProcessor.pdb
+C:\Data\Github\Maker-Den-Dashboard\MQTTProcessor\bin\Debug\M2Mqtt.dll
+C:\Data\Github\Maker-Den-Dashboard\MQTTProcessor\bin\Debug\Newtonsoft.Json.dll
+C:\Data\Github\Maker-Den-Dashboard\MQTTProcessor\bin\Debug\Newtonsoft.Json.xml
+C:\Data\Github\Maker-Den-Dashboard\MQTTProcessor\obj\Debug\MQTTManager.csprojResolveAssemblyReference.cache
+C:\Data\Github\Maker-Den-Dashboard\MQTTProcessor\obj\Debug\MQTTProcessor.dll
+C:\Data\Github\Maker-Den-Dashboard\MQTTProcessor\obj\Debug\MQTTProcessor.pdb

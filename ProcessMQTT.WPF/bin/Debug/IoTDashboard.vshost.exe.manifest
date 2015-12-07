@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="IoTDashboard.exe" version="1.0.0.86" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="IoTDashboard.exe" version="1.0.0.89" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="Images\IoT.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -43,26 +43,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="IoTDashboard.exe" size="1106392">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="IoTDashboard.exe" size="1105368">
       <assemblyIdentity name="IoTDashboard" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Nv/EG6jxNINjnBauiu7w8ekqe0PdoL5ghQP3VKH1E0s=</dsig:DigestValue>
+        <dsig:DigestValue>wi7KpBRbltAQ2ft4k5uGHh4EJA6S2RRMw3QU/NWhZt8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="M2Mqtt.dll" size="45056">
-      <assemblyIdentity name="M2Mqtt" version="3.6.0.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="M2Mqtt.dll" size="56320">
+      <assemblyIdentity name="M2Mqtt" version="4.1.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>97RBPdBKDhbFhVOEolgu8IfV7RhUipE9tec5u2AGAvs=</dsig:DigestValue>
+        <dsig:DigestValue>cN3OwW+Op2c5r1yxaSNCrfBQrYIQ2otJb4gySweBrwQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>QamJag5RER91r0J48sl3lxBCUK7QaKcrEWDyYvNXsOk=</dsig:DigestValue>
+        <dsig:DigestValue>zjzZ+AmtTiTIc55erSJQC3XaMv0I+PJGUPCqlMMY/DY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -147,78 +147,6 @@
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
         <dsig:DigestValue>0phbWi+OXDFgTDNhztFK5DgdgLJfCJSdy0WPQnPIzgo=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="de\Telerik.Windows.Controls.resources.dll" size="361472">
-      <assemblyIdentity name="Telerik.Windows.Controls.resources" version="2014.3.1021.45" publicKeyToken="5803CFA389C90CE7" language="de" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>eKWn3iMfsx7g5uMfNdIx6N7xQ+SiYl+uowHWBHewQUo=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="es\Telerik.Windows.Controls.resources.dll" size="360448">
-      <assemblyIdentity name="Telerik.Windows.Controls.resources" version="2014.3.1021.45" publicKeyToken="5803CFA389C90CE7" language="es" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>cv99TlVHQBxwLRh2TSUy2t/fQErrkwnTX+PAaXAA7VM=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="fr\Telerik.Windows.Controls.resources.dll" size="360448">
-      <assemblyIdentity name="Telerik.Windows.Controls.resources" version="2014.3.1021.45" publicKeyToken="5803CFA389C90CE7" language="fr" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9yg9EdgZpo+RhsBYvT2ehU3e6fCUWpXorw2v9uPGxtY=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="it\Telerik.Windows.Controls.resources.dll" size="356864">
-      <assemblyIdentity name="Telerik.Windows.Controls.resources" version="2014.3.1021.45" publicKeyToken="5803CFA389C90CE7" language="it" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>DvxSNDoSWwY9G0wdMvv0DbVsD18NBIN0cjDqUeZYScs=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="nl\Telerik.Windows.Controls.resources.dll" size="356864">
-      <assemblyIdentity name="Telerik.Windows.Controls.resources" version="2014.3.1021.45" publicKeyToken="5803CFA389C90CE7" language="nl" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>+S72P5acqx7PVmvBvHiLfZ/RAvxQnKc52a/H7WMOCBY=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="tr\Telerik.Windows.Controls.resources.dll" size="358912">
-      <assemblyIdentity name="Telerik.Windows.Controls.resources" version="2014.3.1021.45" publicKeyToken="5803CFA389C90CE7" language="tr" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>fyN/LZle234JCV87Uj4yXBc3nto0DKg1VQ9XF0lV8Ts=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

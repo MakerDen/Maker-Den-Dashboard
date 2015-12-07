@@ -45,6 +45,18 @@ namespace ProcessMQTT.WPF.ValueConverters {
                     else
                         answer = 0d;
                     break;
+                case "kpa":
+                    if (maxMin.ToLowerInvariant() == "max")
+                        answer = 110d;
+                    else
+                        answer = 85d;
+                    break;
+                case "hpa":
+                    if (maxMin.ToLowerInvariant() == "max")
+                        answer = 1080;
+                    else
+                        answer = 900;
+                    break;
                 case "mem":
                     if (maxMin.ToLowerInvariant() == "max")
                         answer = 120d;
